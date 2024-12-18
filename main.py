@@ -5,19 +5,15 @@ from time import sleep
 
 def send_email_via_gmail(sender_email, app_password, recipient_email, subject, body):
     try:
-        # Set up the Gmail server
         server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()  # Encrypts the connection
-        server.login(sender_email, app_password)  # Use App Password here
-
-        # Compose the email
+        server.starttls()  
+        server.login(sender_email, app_password) 
         message = MIMEMultipart()
         message['From'] = sender_email
         message['To'] = recipient_email
         message['Subject'] = subject
         message.attach(MIMEText(body, 'plain'))
 
-        # Send the email
         text = message.as_string()
         server.sendmail(sender_email, recipient_email, text)
         print(f"Email sent successfully to {recipient_email}")
@@ -33,7 +29,6 @@ def main():
     subject = input("Enter the subject of the email: ")
     body = input("Enter the email body: ")
 
-    # Input the number of emails to send and the delay in between
     send_count = int(input("How many emails would you like to send? "))
     delay = int(input("Enter the delay between emails in seconds: "))
 
@@ -41,7 +36,7 @@ def main():
         print(f"Sending email {i + 1} of {send_count}...")
         send_email_via_gmail(sender_email, app_password, recipient_email, subject, body)
         if i < send_count - 1:
-            sleep(delay)  # Delay between sends
+            sleep(delay)  
 
     print("All emails have been sent!")
 
