@@ -33,14 +33,15 @@ def main():
     subject = input("Enter the subject of the email: ")
     body = input("Enter the email body: ")
 
-    send_count = int(input("How many emails to send? "))
-    delay = int(input("Delay between emails (in seconds): "))
+    # Input the number of emails to send and the delay in between
+    send_count = int(input("How many emails would you like to send? "))
+    delay = int(input("Enter the delay between emails in seconds: "))
 
     for i in range(send_count):
         print(f"Sending email {i + 1} of {send_count}...")
         send_email_via_outlook(sender_email, sender_password, recipient_email, subject, body)
         if i < send_count - 1:
-            sleep(delay)
+            sleep(delay)  # Delay between sends
 
     print("All emails have been sent!")
 
