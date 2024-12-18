@@ -1,34 +1,24 @@
-import os
-import platform
 import smtplib
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import time
+from email.mime.multipart import MIMEMultipart
+from time import sleep
 from colorama import init, Fore, Style
 
 init(autoreset=True)
 
-def clear_screen():
-    system = platform.system().lower()
-    if system == 'windows':
-        os.system('cls')  
-    else:
-        os.system('clear') 
-def print_title():
-    title = f"""
-{Fore.CYAN}  __|   __|                                     
-{Fore.CYAN} (_ | \\__ \\  _ \\   _` |   ` \\    ` \\    -_)   _|
-{Fore.CYAN}\\___| ____/ .__/ \\__,_| _|_|_| _|_|_| \\___| _|  
-{Fore.CYAN}           _|                                   
-{Fore.GREEN}by Koma
-    """
-    print(title)
+title_art = '''
+  __|   __|                                     
+ (_ | \__ \  _ \   _` |   ` \    ` \    -_)   _|
+\___| ____/ .__/ \__,_| _|_|_| _|_|_| \___| _|  
+           _|                                   
+               by Koma
+'''
 
-def send_email_via_outlook(sender_email, app_password, recipient_email, subject, body):
+def send_email_via_gmail(sender_email, app_password, recipient_email, subject, body):
     try:
-        server = smtplib.SMTP('smtp.office365.com', 587)
-        server.starttls() 
-        server.login(sender_email, app_password) 
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, app_password)
 
         message = MIMEMultipart()
         message['From'] = sender_email
@@ -38,31 +28,31 @@ def send_email_via_outlook(sender_email, app_password, recipient_email, subject,
 
         text = message.as_string()
         server.sendmail(sender_email, recipient_email, text)
-        print(f"{Fore.GREEN}Email sent successfully to {recipient_email}")
-
+        print(Fore.GREEN + f"Email sent successfully to {recipient_email}")
         server.quit()
 
-    except smtplib.SMTPException as e:
-        print(f"{Fore.RED}Failed to send email: {e}")
     except Exception as e:
-        print(f"{Fore.RED}An unexpected error occurred: {e}")
+        print(Fore.RED + f"Failed to send email: {e}")
 
 def main():
-    clear_screen()
-    print_title()
+    print(Style.BRIGHT + Fore.MAGENTA + title_art)
 
-    sender_email = input(f"{Fore.YELLOW}Enter your Outlook email address: ")
-    app_password = input(f"{Fore.YELLOW}Enter your Outlook App Password (if 2FA enabled): ")
-    recipient_email = input(f"{Fore.YELLOW}Enter recipient's email address: ")
-    subject = input(f"{Fore.YELLOW}Enter the subject of the email: ")
-    body = input(f"{Fore.YELLOW}Enter the email body: ")
-    send_count = int(input(f"{Fore.YELLOW}How many emails would you like to send? "))
-    delay = int(input(f"{Fore.YELLOW}Enter the delay between emails in seconds: "))
+    sender_email = input(Fore.CYAN + "Enter your Gmail email address: ")
+    app_password = input(Fore.CYAN + "Enter your Gmail App Password (if 2FA enabled): ")
+    recipient_email = input(Fore.CYAN + "Enter recipient's email address: ")
+    subject = input(Fore.CYAN + "Enter the subject of the email: ")
+    body = input(Fore.CYAN + "Enter the email body: ")
+
+    send_count = int(input(Fore.YELLOW + "How many emails would you like to send? "))
+    delay = int(input(Fore.YELLOW + "Enter the delay between emails in seconds: "))
 
     for i in range(send_count):
-        print(f"{Fore.CYAN}Sending email {i+1} of {send_count}...")
-        send_email_via_outlook(sender_email, app_password, recipient_email, subject, body)
-        time.sleep(delay)
+        print(Fore.YELLOW + f"Sending email {i + 1} of {send_count}...")
+        send_email_via_gmail(sender_email, app_password, recipient_email, subject, body)
+        if i < send_count - 1:
+            sleep(delay)
+
+    print(Fore.GREEN + "All emails have been sent!")
 
 if __name__ == '__main__':
     main()
