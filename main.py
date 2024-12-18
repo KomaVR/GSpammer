@@ -3,12 +3,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from time import sleep
 
-def send_email_via_outlook(sender_email, sender_password, recipient_email, subject, body):
+def send_email_via_outlook(sender_email, app_password, recipient_email, subject, body):
     try:
         # Set up the Outlook server
         server = smtplib.SMTP('smtp.office365.com', 587)
         server.starttls()  # Encrypts the connection
-        server.login(sender_email, sender_password)
+        server.login(sender_email, app_password)  # Use App Password here
 
         # Compose the email
         message = MIMEMultipart()
@@ -28,7 +28,7 @@ def send_email_via_outlook(sender_email, sender_password, recipient_email, subje
 
 def main():
     sender_email = input("Enter your Outlook email address: ")
-    sender_password = input("Enter your Outlook App Password (if 2FA enabled): ")
+    app_password = input("Enter your Outlook App Password (if 2FA enabled): ")  # Use App Password here
     recipient_email = input("Enter recipient's email address: ")
     subject = input("Enter the subject of the email: ")
     body = input("Enter the email body: ")
@@ -39,7 +39,7 @@ def main():
 
     for i in range(send_count):
         print(f"Sending email {i + 1} of {send_count}...")
-        send_email_via_outlook(sender_email, sender_password, recipient_email, subject, body)
+        send_email_via_outlook(sender_email, app_password, recipient_email, subject, body)
         if i < send_count - 1:
             sleep(delay)  # Delay between sends
 
