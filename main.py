@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from time import sleep
+import os
 from colorama import init, Fore, Style
 
 init(autoreset=True)
@@ -13,6 +14,12 @@ title_art = '''
            _|                                   
                by Koma
 '''
+
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def send_email_via_gmail(sender_email, app_password, recipient_email, subject, body):
     try:
@@ -35,6 +42,7 @@ def send_email_via_gmail(sender_email, app_password, recipient_email, subject, b
         print(Fore.RED + f"Failed to send email: {e}")
 
 def main():
+    clear_screen()
     print(Style.BRIGHT + Fore.MAGENTA + title_art)
 
     sender_email = input(Fore.CYAN + "Enter your Gmail email address: ")
