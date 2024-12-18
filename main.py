@@ -27,8 +27,8 @@ def send_email_via_outlook(sender_email, sender_password, recipient_email, subje
         print(f"Failed to send email: {e}")
 
 def main():
-    sender_email = input("Enter your Gmail address: ")
-    sender_password = input("Enter your Gmail password (App Password if 2FA is enabled): ")
+    sender_email = input("Enter your Outlook email address: ")
+    sender_password = input("Enter your Outlook App Password (if 2FA enabled): ")
     recipient_email = input("Enter recipient's email address: ")
     subject = input("Enter the subject of the email: ")
     body = input("Enter the email body: ")
